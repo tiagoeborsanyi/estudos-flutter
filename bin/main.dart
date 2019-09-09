@@ -9,16 +9,69 @@ main() {
 void menu() {
   print('### Inicio ###');
   print('\nSelecione uma das opções abaixo:');
-  print('\n1 - Ver a cotação de hoje');
-  print('\n2 - Registrar a cotação de hoje');
+  print('1 - Ver a cotação de hoje');
+  print('2 - Registrar a cotação de hoje');
+  print('3 - Ver cotações registradas');
 
   String option = stdin.readLineSync();
 
   switch(int.parse(option)) {
-    case 1: today();
-    break;
+    case 1: today(); break;
+    case 2: registerData(); break;
+    case 3: listData(); break;
     default: print('\n\nops, opção invalida, seleciona algo valido aew'); menu(); break;
   }
+}
+
+registerData() async {
+  var hgData = await getData();
+  dynamic fileData = readFile();
+
+  fileData = (fileData != null && fileData.length > 0 ? json.decode(fileData) : List());
+
+  bool exists = false;
+
+  fileData.forEach((data) {
+    if(data['date'] == now())
+      exists = true;
+  });
+
+  if(!exists) {
+    fileData.add({'date': now(), "data": "${hgData['data']}"});
+
+    Directory dir = Directory.current;
+    File file = File(dir.path + '/meu_arquivo.txt');
+    RandomAccessFile raf = file.openSync(mode: FileMode.write);
+
+    raf.writeStringSync(json.encode(fileData).toString());
+    raf.flushSync();
+    raf.closeSync();
+
+    print('\n\n## dados salvo com sucesso');
+  } else {
+    print('\n\n### registro nao salvo, ja existe um log de hoje salvo.');
+  }
+}
+
+void listData() {
+  dynamic fileData = readFile();
+  fileData = (fileData != null && fileData.length > 0 ? json.decode(fileData) : List());
+
+  print('\n### Listagem dos dados ###');
+
+  fileData.forEach((data) {
+    print('${data['date']} -> ${data['data']}');
+  });
+}
+
+String readFile() {
+  Directory dir = Directory.current;
+  File file = File(dir.path + '/meu_arquivo.txt');
+  if(!file.existsSync()) {
+    print('Arquivo não encontrado');
+    return null;
+  }
+  return file.readAsStringSync();
 }
 
 today() async {
