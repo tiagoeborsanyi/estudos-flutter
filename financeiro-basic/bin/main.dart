@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 
 main() {
-  menu();
+  //menu();
+  print('${Platform.operatingSystem} ${Platform.version}');
+  print('Path: ${Platform.script.path}');
 }
 
 void menu() {
