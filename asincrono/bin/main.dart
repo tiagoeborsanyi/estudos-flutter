@@ -1,24 +1,38 @@
-import 'dart:async';
+import 'dart:io';
+import 'dart:convert';
 
-int counter = 0;
+main() {
+  int zlib_comp = testCompress(zlib);
+  int gzip_comp = testCompress(gzip);
 
-main(List<String> arguments) {
-  Duration duration = Duration(seconds: 2);
-  Timer.periodic(duration, timeout);
-
-  print('Iniciado: ${getTime()}');
+  print(zlib_comp);
+  print(gzip_comp);
 }
 
-void timeout(Timer timer) {
-  print('Espera: ${getTime()}');
-
-  counter++;
-  if (counter >= 5) {
-    timer.cancel();
+String generateData() {
+  String data = '';
+  for (int i=0; i < 1000; i++) {
+    data = data + 'Olá Dart que bai virar flutter\n';
   }
+  return data;
 }
 
-String getTime() {
-  DateTime dt = DateTime.now();
-  return dt.toString();
+int testCompress(var codec) {
+  String data = generateData();
+
+  List original = utf8.encode(data);
+  List compressed = codec.encode(data);
+  List decompressed = codec.decode(data);
+
+  print('Testandi: ${codec.toString()}');
+  print('Original: ${original.length} bytes');
+  print('compressed: ${compressed.length} bytes');
+  print('decompressed: ${decompressed.length} bytes');
+
+  print('');
+
+  String decoded = utf8.decode(decompressed);
+  assert(data == decoded);
+
+  return compressed.length;
 }
