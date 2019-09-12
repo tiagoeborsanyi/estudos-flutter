@@ -1,11 +1,11 @@
+import 'dart:async';
 import 'package:mysql1/mysql1.dart';
 
-createConnection() async {
+Future createConnection() async {
     var s = ConnectionSettings(
-      user: "root",
-//      password: "",
       host: "localhost",
       port: 3306,
+      user: "root",
       db: "teste",
     );
     return await MySqlConnection.connect(s);
