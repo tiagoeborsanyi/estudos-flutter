@@ -5,9 +5,15 @@ import 'package:mysql1/mysql1.dart';
 main() async {
   var conn = await bd.createConnection();
   await createTable(conn);
-//  await insertData(conn);
+  await insertData(conn);
   await listData(conn);
+  await dropTable(conn);
   await conn.close();
+}
+
+Future<void> dropTable(MySqlConnection conn) async {
+  print('Removendo a tabela...');
+  await conn.query('DROP TABLE people');
 }
 
 Future<void> listData(MySqlConnection conn) async {
