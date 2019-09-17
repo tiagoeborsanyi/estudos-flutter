@@ -16,9 +16,10 @@ class HomePage extends StatelessWidget {
 
   _body() {
     return Container(
+//      margin: EdgeInsets.only(left: 10, top: 10),
       color: Colors.white,
       child: Center(
-        child: _text(),
+        child: _img(),
       ),
     );
   }
@@ -32,8 +33,13 @@ class HomePage extends StatelessWidget {
         fontWeight: FontWeight.bold,
         fontStyle: FontStyle.italic,
         decoration: TextDecoration.underline,
-        decorationColor: Colors.red,
+        decorationStyle: TextDecorationStyle.wavy,
+        decorationColor: Colors.deepOrange,
       ),
     );
+  }
+
+  _img() {
+    return Image.asset("assets/images/dog2.png");
   }
 }
