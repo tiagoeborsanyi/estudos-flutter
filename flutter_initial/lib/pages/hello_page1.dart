@@ -5,7 +5,8 @@ class HelloPage1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Page 1'),
+        title: Text('ListView'),
+        centerTitle: true,
       )
     );
   }
