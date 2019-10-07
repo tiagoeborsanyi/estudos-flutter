@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_initial/pages/hello_listview.dart';
 import 'package:flutter_initial/pages/hello_page1.dart';
@@ -28,66 +26,103 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             _text(),
             _pageView(),
-            _buttons(context),
+            _buttons(),
           ],
-        )
-    );
+        ));
   }
 
   Container _pageView() {
     return Container(
-          margin: EdgeInsets.only(top: 20, bottom: 20),
-          height: 300,
-          child: PageView(
-            children: <Widget>[
-              _img("assets/images/dog1.png"),
-              _img("assets/images/dog2.png"),
-              _img("assets/images/dog3.png"),
-              _img("assets/images/dog4.png"),
-              _img("assets/images/dog5.png"),
-            ],
-          ),
-        );
+      margin: EdgeInsets.only(top: 20, bottom: 20),
+      height: 300,
+      child: PageView(
+        children: <Widget>[
+          _img("assets/images/dog1.png"),
+          _img("assets/images/dog2.png"),
+          _img("assets/images/dog3.png"),
+          _img("assets/images/dog4.png"),
+          _img("assets/images/dog5.png"),
+        ],
+      ),
+    );
   }
 
- _buttons(BuildContext context) {
-    return Column(
+  _buttons() {
+    return Builder(
+      builder: (context) {
+        return Column(
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                BlueButton("ListView", onPressed: () => _onClickNavigator(context, HelloListView())),
-                BlueButton("Page 2", onPressed: () => _onClickNavigator(context, HelloPage2())),
-                BlueButton("Page 3", onPressed: () => _onClickNavigator(context, HelloPage3())),
+                BlueButton("ListView",
+                    onPressed: () =>
+                        _onClickNavigator(context, HelloListView())),
+                BlueButton("Page 2",
+                    onPressed: () => _onClickNavigator(context, HelloPage2())),
+                BlueButton("Page 3",
+                    onPressed: () => _onClickNavigator(context, HelloPage3())),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                BlueButton("Snack", onPressed: _onClickSnack),
-                BlueButton("Dialog", onPressed: _onClickDialog),
+                BlueButton("Snack", onPressed: () => _onClickSnack(context)),
+                BlueButton("Dialog", onPressed: () => _onClickDialog(context)),
                 BlueButton("Toast", onPressed: _onClickToast),
               ],
             )
           ],
         );
+      },
+    );
   }
-
-
 
   void _onClickNavigator(BuildContext context, Widget page) async {
     String s = await push(context, page);
     print(">> $s");
   }
 
-  _onClickSnack() {
+  _onClickSnack(context) {
+    Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('Olá Flutterr'),
+        action: SnackBarAction(
+            textColor: Colors.yellow,
+            label: "OK",
+            onPressed: () {
+              print("OK!");
+            })));
   }
 
-  _onClickDialog() {
+  _onClickDialog(BuildContext context) {
+    showDialog(context: context,
+        barrierDismissible: false,
+        builder: (context) {
+      return WillPopScope(
+        onWillPop: () async => false,
+        child: AlertDialog(
+          title: Text("Flutter é muito legal."),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("cancelar"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.pop(context);
+                print("OK!!!");
+              },
+            )
+          ],
+        ),
+      );
+    });
   }
 
-  _onClickToast() {
-  }
+  _onClickToast() {}
 
   _text() {
     return Text(
@@ -103,7 +138,6 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
 
   _img(String img) {
     return Container(
