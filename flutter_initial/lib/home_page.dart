@@ -5,24 +5,64 @@ import 'package:flutter_initial/pages/hello_page2.dart';
 import 'package:flutter_initial/pages/hello_page3.dart';
 import 'package:flutter_initial/utils/nav.dart';
 import 'package:flutter_initial/widgets/blue_button.dart';
+import 'package:flutter_initial/widgets/drawer_list.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Hello Flutter"),
-        centerTitle: true,
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text("Hello Flutter"),
+            centerTitle: true,
+            bottom: TabBar(tabs: [
+              Tab(text: "TAB 1"),
+              Tab(text: "TAB 2"),
+              Tab(text: "TAB 3"),
+            ]),
+          ),
+          body: TabBarView(children: [
+            _body(context),
+            Container(
+              color: Colors.green
+            ),
+            Container(
+                color: Colors.yellowAccent
+            ),
+          ]),
+          floatingActionButton: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              FloatingActionButton(
+                  child: Icon(Icons.add),
+                  onPressed: () {
+                    _onclickFab();
+                  }),
+              SizedBox(
+                width: 16,
+              ),
+              FloatingActionButton(
+                  child: Icon(Icons.favorite),
+                  onPressed: () {
+                    _onclickFab();
+                  }),
+            ],
+          ),
+          drawer: DrawerList(
+
+          ),
       ),
-      body: _body(context),
     );
   }
 
   _body(BuildContext context) {
     return Container(
+        padding: EdgeInsets.only(top: 16),
         color: Colors.white,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             _text(),
             _pageView(),
@@ -95,34 +135,44 @@ class HomePage extends StatelessWidget {
   }
 
   _onClickDialog(BuildContext context) {
-    showDialog(context: context,
+    showDialog(
+        context: context,
         barrierDismissible: false,
         builder: (context) {
-      return WillPopScope(
-        onWillPop: () async => false,
-        child: AlertDialog(
-          title: Text("Flutter é muito legal."),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("cancelar"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              title: Text("Flutter é muito legal."),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("cancelar"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                FlatButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    print("OK!!!");
+                  },
+                )
+              ],
             ),
-            FlatButton(
-              child: Text("OK"),
-              onPressed: () {
-                Navigator.pop(context);
-                print("OK!!!");
-              },
-            )
-          ],
-        ),
-      );
-    });
+          );
+        });
   }
 
-  _onClickToast() {}
+  _onClickToast() {
+    Fluttertoast.showToast(
+        msg: "Flutter é legal",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
 
   _text() {
     return Text(
@@ -147,5 +197,9 @@ class HomePage extends StatelessWidget {
         fit: BoxFit.cover,
       ),
     );
+  }
+
+  _onclickFab() {
+    print('Float action button');
   }
 }
