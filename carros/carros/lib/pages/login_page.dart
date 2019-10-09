@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   final _tLogin = TextEditingController();
+
   final _tSenha = TextEditingController();
+
+  final _focusSenha = FocusNode();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +38,27 @@ class LoginPage extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: ListView(
           children: <Widget>[
-            _text("Login", "digite o login",
-                controller: _tLogin, validator: _validateLogin),
+            _text(
+              "Login",
+              "digite o login",
+              controller: _tLogin,
+              validator: _validateLogin,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              nextFocus: _focusSenha,
+            ),
             SizedBox(
               height: 10,
             ),
-            _text("Senha", "digite a senha",
-                password: true, controller: _tSenha, validator: _validateSenha),
+            _text(
+              "Senha",
+              "digite a senha",
+              password: true,
+              controller: _tSenha,
+              validator: _validateSenha,
+              keyboardType: TextInputType.number,
+              focusNode: _focusSenha,
+            ),
             SizedBox(
               height: 20,
             ),
@@ -47,11 +75,23 @@ class LoginPage extends StatelessWidget {
     bool password = false,
     TextEditingController controller,
     FormFieldValidator<String> validator,
+    TextInputType keyboardType,
+    TextInputAction textInputAction,
+        FocusNode focusNode,
+        FocusNode nextFocus
   }) {
     return TextFormField(
       controller: controller,
       obscureText: password,
       validator: validator,
+      keyboardType: keyboardType,
+      textInputAction: textInputAction,
+        focusNode: focusNode,
+      onFieldSubmitted: (String text) {
+        if (nextFocus != null) {
+          FocusScope.of(context).requestFocus(nextFocus);
+        }
+      },
       style: TextStyle(fontSize: 25, color: Colors.blue),
       decoration: InputDecoration(
           labelText: label,
