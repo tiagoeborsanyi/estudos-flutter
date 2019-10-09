@@ -1,5 +1,7 @@
+import 'package:carros/pages/api_response.dart';
 import 'package:carros/pages/home_page.dart';
 import 'package:carros/pages/login_api.dart';
+import 'package:carros/pages/usuario.dart';
 import 'package:carros/utils/nav.dart';
 import 'package:carros/widgets/app_button.dart';
 import 'package:carros/widgets/app_text.dart';
@@ -85,11 +87,15 @@ class _LoginPageState extends State<LoginPage> {
     String senha = _tSenha.text;
     print("Login: $login, senha: $senha");
     
-    bool ok = await LoginApi.login(login, senha);
-    if (ok) {
+    ApiResponse response = await LoginApi.login(login, senha);
+    if (response.ok) {
+
+      Usuario user = response.result;
+
+      print(">>> $user");
       push(context, HomePage());
     } else {
-      print("Login incorreto");
+      print(response.msg);
     }
   }
 
