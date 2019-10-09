@@ -83,7 +83,6 @@ class _LoginPageState extends State<LoginPage> {
 
     String login = _tLogin.text;
     String senha = _tSenha.text;
-    _tLogin.text = '';
     print("Login: $login, senha: $senha");
     
     bool ok = await LoginApi.login(login, senha);
