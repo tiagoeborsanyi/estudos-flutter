@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class AppText extends StatelessWidget {
   String label;
   String hint;
@@ -39,9 +40,9 @@ class AppText extends StatelessWidget {
       },
       style: TextStyle(fontSize: 25, color: Colors.blue),
       decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16)
-          ),
+//          border: OutlineInputBorder(
+//            borderRadius: BorderRadius.circular(16)
+//          ),
           labelText: label,
           labelStyle: TextStyle(fontSize: 25, color: Colors.grey),
           hintText: hint,
