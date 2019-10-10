@@ -17,12 +17,38 @@ class HomePage extends StatelessWidget {
   }
 
   _body() {
-    List<Carro> carros = CarrosApi.getCarros();
+    Future<List<Carro>> future = CarrosApi.getCarros();
 
+    return FutureBuilder(
+      future: future,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) {
+          print(snapshot.hasError);
+          return Center(
+            child: Text(
+              "Não possível buscar os carros.",
+              style: TextStyle(color: Colors.red, fontSize: 22),
+            ),
+          );
+        }
+
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        List<Carro> carros = snapshot.data;
+        return _listView(carros);
+      },
+    );
+  }
+
+  Container _listView(List<Carro> carros) {
     return Container(
       padding: EdgeInsets.all(16),
       child: ListView.builder(
-          itemCount: carros.length,
+          itemCount: carros != null ? carros.length : 0,
           itemBuilder: (context, index) {
             Carro c = carros[index];
 
@@ -35,7 +61,7 @@ class HomePage extends StatelessWidget {
                   children: <Widget>[
                     Center(
                       child: Image.network(
-                        c.urlFoto,
+                        c.urlFoto ?? "https://www.google.com/imgres?imgurl=https%3A%2F%2Frussiansbrides.com%2Fwp-content%2Fuploads%2F2019%2F06%2FBulgarian-Women-2.jpg&imgrefurl=https%3A%2F%2Frussiansbrides.com%2Fbulgarian-women%2F&docid=RL8LMDbtbe8VjM&tbnid=lReTGAg_D_IAwM%3A&vet=10ahUKEwib8bmoz5DlAhUcK7kGHe0lCBYQMwg_KAEwAQ..i&w=1140&h=641&bih=936&biw=1381&q=women%20bulgarian&ved=0ahUKEwib8bmoz5DlAhUcK7kGHe0lCBYQMwg_KAEwAQ&iact=mrc&uact=8",
                         width: 250,
                       ),
                     ),
