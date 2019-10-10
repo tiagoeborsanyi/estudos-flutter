@@ -18,12 +18,26 @@ class _HomePageState extends State<HomePage>
     // TODO: implement initState
     super.initState();
 
+//    _tabController = TabController(length: 3, vsync: this);
+//
+//    Future<int> future = Prefs.getInt("tabIdx");
+//    future.then((int idx) {
+//      _tabController.index = idx;
+//    });
+//
+//    _tabController.addListener(() {
+//      print("Tab ${_tabController.index}");
+//
+//      Prefs.setInt("tabIdx", _tabController.index);
+//    });
+
+    _initTabs();
+  }
+
+  _initTabs() async {
     _tabController = TabController(length: 3, vsync: this);
 
-    Future<int> future = Prefs.getInt("tabIdx");
-    future.then((int idx) {
-      _tabController.index = idx;
-    });
+    _tabController.index = await Prefs.getInt("tabIdx");
 
     _tabController.addListener(() {
       print("Tab ${_tabController.index}");
