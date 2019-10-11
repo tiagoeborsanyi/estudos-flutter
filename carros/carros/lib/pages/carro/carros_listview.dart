@@ -1,5 +1,7 @@
 import 'package:carros/pages/carro/carro.dart';
+import 'package:carros/pages/carro/carro_page.dart';
 import 'package:carros/pages/carro/carros_api.dart';
+import 'package:carros/utils/nav.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -88,7 +90,7 @@ class _CarrosListViewState extends State<CarrosListView> with AutomaticKeepAlive
                         children: <Widget>[
                           FlatButton(
                             child: Text("Detalhes"),
-                            onPressed: () {},
+                            onPressed: () => _onClickCarro(c),
                           ),
                           FlatButton(
                             child: Text("Share"),
@@ -103,5 +105,9 @@ class _CarrosListViewState extends State<CarrosListView> with AutomaticKeepAlive
             );
           }),
     );
+  }
+
+  _onClickCarro(c) {
+    push(context, CarroPage(c));
   }
 }

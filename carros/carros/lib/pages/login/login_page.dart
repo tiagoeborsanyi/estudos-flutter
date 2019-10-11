@@ -33,10 +33,10 @@ class _LoginPageState extends State<LoginPage> {
     future.then((Usuario user) {
       if (user != null) {
         // Se eu quiser deixar o usuario logado segue o codigo
-        // push(context, HomePage(), replace: true);
-        setState(() {
-          _tLogin.text = user.login;
-        });
+        push(context, HomePage(), replace: true);
+//        setState(() {
+//          _tLogin.text = user.login;
+//        });
       }
     });
   }
@@ -109,9 +109,6 @@ class _LoginPageState extends State<LoginPage> {
 
     ApiResponse response = await LoginApi.login(login, senha);
     if (response.ok) {
-      Usuario user = response.result;
-
-//      print(">>> $user");
       push(context, HomePage(), replace: true);
     } else {
       alert(context, response.msg);

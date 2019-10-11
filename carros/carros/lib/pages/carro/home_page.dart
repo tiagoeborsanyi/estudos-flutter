@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage>
     _tabController.index = await Prefs.getInt("tabIdx");
 
     _tabController.addListener(() {
-      print("Tab ${_tabController.index}");
+//      print("Tab ${_tabController.index}");
 
       Prefs.setInt("tabIdx", _tabController.index);
     });
