@@ -1,6 +1,7 @@
 import 'package:carros/pages/carro/carro.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CarroPage extends StatelessWidget {
   Carro carro;
 

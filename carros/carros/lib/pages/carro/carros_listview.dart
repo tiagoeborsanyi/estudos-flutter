@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carros/pages/carro/carro.dart';
 import 'package:carros/pages/carro/carro_page.dart';
 import 'package:carros/pages/carro/carros_api.dart';
@@ -6,47 +8,60 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CarrosListView extends StatefulWidget {
-
   String tipo;
+
   CarrosListView(this.tipo);
 
   @override
   _CarrosListViewState createState() => _CarrosListViewState();
 }
 
-class _CarrosListViewState extends State<CarrosListView> with AutomaticKeepAliveClientMixin<CarrosListView> {
+class _CarrosListViewState extends State<CarrosListView>
+    with AutomaticKeepAliveClientMixin<CarrosListView> {
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+  List<Carro> carros;
+  final _streamController = StreamController<List<Carro>>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadData();
+  }
+
+  _loadData() async {
+    List<Carro> carros = await CarrosApi.getCarros(widget.tipo);
+    _streamController.add(carros);
+//    setState(() {
+//      this.carros = carros;
+//    });
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return _body();
-  }
 
-  _body() {
-    Future<List<Carro>> future = CarrosApi.getCarros(widget.tipo);
-
-    return FutureBuilder(
-      future: future,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
+    return StreamBuilder(
+      stream: _streamController.stream,
+      builder: (context, snapshot) {
         if (snapshot.hasError) {
-          print(snapshot.hasError);
           return Center(
             child: Text(
-              "Não possível buscar os carros.",
-              style: TextStyle(color: Colors.red, fontSize: 22),
+              "Não foi possivel buscar os carros.",
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 22,
+              ),
             ),
           );
         }
-
         if (!snapshot.hasData) {
           return Center(
             child: CircularProgressIndicator(),
           );
         }
-
         List<Carro> carros = snapshot.data;
         return _listView(carros);
       },
