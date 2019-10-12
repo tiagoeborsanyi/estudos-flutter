@@ -88,8 +88,6 @@ class _LoginPageState extends State<LoginPage> {
             StreamBuilder<bool>(
               stream: _streamController.stream,
               builder: (context, snapshot) {
-                bool b = snapshot.data;
-                print("b: $b - snapshot: $snapshot");
                 return AppButton(
                   "Login",
                   onPressed: _onClickLogin,
@@ -135,5 +133,12 @@ class _LoginPageState extends State<LoginPage> {
       return "Digite a senha";
     }
     return null;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _streamController.close();
   }
 }
