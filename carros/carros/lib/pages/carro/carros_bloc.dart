@@ -22,7 +22,8 @@ class CarrosBloc {
 
   }
 
-  void dispose() {
+  dispose() {
+    // ignore: unnecessary_statements
     _streamController.close;
   }
 
