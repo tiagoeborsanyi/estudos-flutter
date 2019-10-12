@@ -11,11 +11,15 @@ class CarrosBloc {
   Stream<List<Carro>> get stream => _streamController.stream;
   get close => _streamController.close();
 
-  fetch(String tipo) async {
+  // ignore: missing_return
+  Future<List<Carro>> fetch(String tipo) async {
 
     try {
       List<Carro> carros = await CarrosApi.getCarros(tipo);
+
       _streamController.add(carros);
+
+      return carros;
     } catch (e) {
       _streamController.addError(e);
     }
