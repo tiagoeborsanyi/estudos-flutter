@@ -30,17 +30,6 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    Future<Usuario> future = Usuario.get();
-    future.then((Usuario user) {
-      if (user != null) {
-        // Se eu quiser deixar o usuario logado segue o codigo
-        push(context, HomePage(), replace: true);
-//        setState(() {
-//          _tLogin.text = user.login;
-//        });
-      }
-    });
   }
 
   @override
