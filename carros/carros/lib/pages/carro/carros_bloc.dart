@@ -3,6 +3,8 @@ import 'dart:async';
 
 import 'package:carros/pages/carro/carro.dart';
 import 'package:carros/pages/carro/carros_api.dart';
+import 'package:carros/pages/favoritos/carro_dao.dart';
+import 'package:carros/utils/network.dart';
 
 class CarrosBloc {
 
@@ -15,9 +17,24 @@ class CarrosBloc {
   Future<List<Carro>> fetch(String tipo) async {
 
     try {
+
+      bool networkOn = await isNetworkOn();
+
+      if (!networkOn) {
+        List<Carro> carros = await CarroDAO().findAllByTipo(tipo);
+        _streamController.add(carros);
+        return carros;
+      }
       List<Carro> carros = await CarrosApi.getCarros(tipo);
 
-      _streamController.add(carros);
+      final dao = CarroDAO();
+
+      if (carros.isNotEmpty) {
+        // Salva todos os carros no banco de dados local
+        carros.forEach((c) => dao.save(c));
+
+        _streamController.add(carros);
+      }
 
       return carros;
     } catch (e) {

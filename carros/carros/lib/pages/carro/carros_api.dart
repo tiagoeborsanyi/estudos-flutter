@@ -32,11 +32,6 @@ class CarrosApi {
 
     final carros = list.map<Carro>((map) => Carro.fromMap(map)).toList();
 
-    final dao = CarroDAO();
-
-    // Salva todos os carros no banco de dados local
-    carros.forEach((c) => dao.save(c));
-
     return carros;
   }
 }
