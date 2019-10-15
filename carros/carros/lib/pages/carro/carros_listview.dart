@@ -28,7 +28,7 @@ class CarrosListView extends StatelessWidget {
                   children: <Widget>[
                     Center(
                       child: CachedNetworkImage(
-                        imageUrl: c.urlFoto ?? ("assets/images/carro.jpg"),
+                        imageUrl: c.urlFoto != null ? c.urlFoto : ("assets/images.carro.jpg"),
                         width: 250,
                       ),
                     ),
