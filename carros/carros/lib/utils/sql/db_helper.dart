@@ -26,7 +26,7 @@ class DatabaseHelper {
     String path = join(databasesPath, 'carros.db');
     print("db $path");
 
-    var db = await openDatabase(path, version: 1, onCreate: _onCreate, onUpgrade: _onUpgrade);
+    var db = await openDatabase(path, version: 3, onCreate: _onCreate, onUpgrade: _onUpgrade);
     return db;
   }
 
@@ -37,7 +37,9 @@ class DatabaseHelper {
     List<String> sqls = s.split(";");
 
     for (String sql in sqls) {
+      print("SQL >>> $sql");
       if (sql.trim().isNotEmpty) {
+
         await db.execute(sql);
       }
     }
