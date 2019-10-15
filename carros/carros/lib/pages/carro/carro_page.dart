@@ -81,14 +81,20 @@ class _CarroPageState extends State<CarroPage> {
       padding: EdgeInsets.all(16),
       child: ListView(
         children: <Widget>[
-          CachedNetworkImage(
-              imageUrl: widget.carro.urlFoto ?? "assets/images/carro.jpg"),
+          _imageCarroPage(),
           _bloco1(),
           Divider(),
           _bloco2(),
         ],
       ),
     );
+  }
+
+  _imageCarroPage() {
+    return widget.carro.urlFoto != null
+        ? CachedNetworkImage(
+            imageUrl: widget.carro.urlFoto)
+        : Image.asset("assets/images/carro.jpg", width: 200, height: 190,);
   }
 
   Row _bloco1() {

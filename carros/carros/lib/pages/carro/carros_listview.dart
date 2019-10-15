@@ -27,10 +27,7 @@ class CarrosListView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Center(
-                      child: CachedNetworkImage(
-                        imageUrl: c.urlFoto != null ? c.urlFoto : ("assets/images.carro.jpg"),
-                        width: 250,
-                      ),
+                      child: _imageListView(c),
                     ),
                     Text(
                       c.nome,
@@ -62,6 +59,15 @@ class CarrosListView extends StatelessWidget {
             );
           }),
     );
+  }
+
+  _imageListView(Carro c) {
+    return c.urlFoto != null
+            ? CachedNetworkImage(
+                      imageUrl: c.urlFoto,
+                      width: 250,
+                    )
+            : Image.asset("assets/images/carro.jpg", width: 250);
   }
 
   _onClickCarro(context, c) {
