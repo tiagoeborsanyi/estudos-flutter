@@ -3,7 +3,7 @@ import 'dart:async';
 
 import 'package:carros/pages/carro/carro.dart';
 import 'package:carros/pages/carro/carros_api.dart';
-import 'package:carros/pages/favoritos/carro_dao.dart';
+import 'package:carros/pages/carro/carro_dao.dart';
 import 'package:carros/utils/network.dart';
 
 class CarrosBloc {
