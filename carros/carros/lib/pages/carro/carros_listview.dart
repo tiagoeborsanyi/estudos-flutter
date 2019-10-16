@@ -30,7 +30,7 @@ class CarrosListView extends StatelessWidget {
                       child: _imageListView(c),
                     ),
                     Text(
-                      c.nome,
+                      c.nome ?? "ALGUM NOME",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 22),

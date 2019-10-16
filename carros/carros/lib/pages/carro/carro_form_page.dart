@@ -210,7 +210,9 @@ class _CarroFormPageState extends State<CarroFormPage> {
     ApiResponse<bool> response = await CarrosApi.save(c);
 
     if (response.ok) {
-      alert(context, "Carro salvo com sucesso.");
+      alert(context, "Carro salvo com sucesso.", callback: () {
+        Navigator.pop(context);
+      });
     } else {
       alert(context, response.msg);
     }
