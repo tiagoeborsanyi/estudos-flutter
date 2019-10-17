@@ -1,3 +1,4 @@
+import 'package:carros/main.dart';
 import 'package:carros/pages/carro/carro.dart';
 import 'package:carros/pages/carro/carros_listview.dart';
 import 'package:carros/pages/favoritos/favoritos_bloc.dart';
@@ -16,13 +17,11 @@ class _FavoritosPageState extends State<FavoritosPage> with AutomaticKeepAliveCl
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
-  final _bloc = FavoritosBloc();
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _bloc.fetch();
+    favoritosBloc.fetch();
   }
 
 
@@ -30,7 +29,7 @@ class _FavoritosPageState extends State<FavoritosPage> with AutomaticKeepAliveCl
   // ignore: must_call_super
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: _bloc.stream,
+      stream: favoritosBloc.stream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return TextError("Não foi possivel buscar os carros.");
@@ -51,15 +50,7 @@ class _FavoritosPageState extends State<FavoritosPage> with AutomaticKeepAliveCl
 
   Future<void> _onRefresh() {
     return Future.delayed(Duration(seconds: 3), () {
-      return _bloc.fetch();
+      return favoritosBloc.fetch();
     });
   }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _bloc.dispose();
-  }
-
 }
