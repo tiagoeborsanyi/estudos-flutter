@@ -1,6 +1,8 @@
+import 'dart:io';
+
 import 'package:carros/pages/api_response.dart';
 import 'package:carros/pages/carro/carro.dart';
-import 'package:carros/pages/carro/carro_dao.dart';
+import 'package:carros/pages/carro/upload_api.dart';
 import 'package:carros/pages/login/usuario.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -38,8 +40,17 @@ class CarrosApi {
     return carros;
   }
 
-  static Future<ApiResponse<bool>> save(Carro c) async {
+  static Future<ApiResponse<bool>> save(Carro c, File file) async {
     try {
+
+      if (file != null) {
+        ApiResponse<String> response = await UploadApi.upload(file);
+        if (response.ok) {
+          String urlFoto = response.result;
+          c.urlFoto = urlFoto;
+        }
+      }
+
       Usuario user = await Usuario.get();
       
       Map<String, String> headers = {

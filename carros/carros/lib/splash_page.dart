@@ -16,6 +16,7 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   @override
+  // ignore: must_call_super
   void initState() {
 
     // Inicializar o banco de dados

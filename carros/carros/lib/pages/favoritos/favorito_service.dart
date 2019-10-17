@@ -5,6 +5,7 @@ import 'package:carros/pages/favoritos/favorito.dart';
 import 'package:carros/pages/favoritos/favorito_dao.dart';
 
 class FavoritoService {
+  // ignore: missing_return
   static Future<bool> favoritar (Carro c) async {
 
     Favorito f = Favorito.fromCarro(c);
