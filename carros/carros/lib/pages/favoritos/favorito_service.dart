@@ -1,12 +1,11 @@
 
-import 'package:carros/main.dart';
 import 'package:carros/pages/carro/carro.dart';
 import 'package:carros/pages/carro/carro_dao.dart';
 import 'package:carros/pages/favoritos/favorito.dart';
 import 'package:carros/pages/favoritos/favorito_dao.dart';
-import 'package:path/path.dart';
+import 'package:carros/pages/favoritos/favoritos_model.dart';
 import 'package:provider/provider.dart';
-import 'package:carros/pages/favoritos/favoritos_bloc.dart';
+
 
 class FavoritoService {
   // ignore: missing_return
@@ -20,11 +19,11 @@ class FavoritoService {
 
     if (exists) {
       dao.delete(c.id);
-      Provider.of<FavoritosBloc>(context).fetch();
+      Provider.of<FavoritosModel>(context, listen: false).getCarros();
       return false;
     } else {
       dao.save(f);
-      Provider.of<FavoritosBloc>(context).fetch();
+      Provider.of<FavoritosModel>(context, listen: false).getCarros();
       return true;
     }
   }
