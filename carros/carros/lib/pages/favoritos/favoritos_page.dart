@@ -4,6 +4,7 @@ import 'package:carros/pages/carro/carros_listview.dart';
 import 'package:carros/pages/favoritos/favoritos_bloc.dart';
 import 'package:carros/widgets/text_error.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class FavoritosPage extends StatefulWidget {
@@ -21,6 +22,8 @@ class _FavoritosPageState extends State<FavoritosPage> with AutomaticKeepAliveCl
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    FavoritosBloc favoritosBloc = Provider.of<FavoritosBloc>(context, listen: false);
     favoritosBloc.fetch();
   }
 
@@ -28,6 +31,10 @@ class _FavoritosPageState extends State<FavoritosPage> with AutomaticKeepAliveCl
   @override
   // ignore: must_call_super
   Widget build(BuildContext context) {
+    super.build(context);
+
+    FavoritosBloc favoritosBloc = Provider.of<FavoritosBloc>(context);
+
     return StreamBuilder(
       stream: favoritosBloc.stream,
       builder: (context, snapshot) {
@@ -50,7 +57,7 @@ class _FavoritosPageState extends State<FavoritosPage> with AutomaticKeepAliveCl
 
   Future<void> _onRefresh() {
     return Future.delayed(Duration(seconds: 3), () {
-      return favoritosBloc.fetch();
+      return Provider.of<FavoritosBloc>(context).fetch();
     });
   }
 }
