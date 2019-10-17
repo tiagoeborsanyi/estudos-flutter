@@ -231,7 +231,7 @@ class _CarroFormPageState extends State<CarroFormPage> {
 
     if (response.ok) {
       alert(context, "Carro salvo com sucesso.", callback: () {
-        EventBus.get(context).sendEvent("Carro salvo.");
+        EventBus.get(context).sendEvent(CarroEvent("Carro salvo.", c.tipo));
         Navigator.pop(context);
       });
     } else {

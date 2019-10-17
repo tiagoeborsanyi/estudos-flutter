@@ -21,7 +21,7 @@ class CarrosPage extends StatefulWidget {
 class _CarrosPageState extends State<CarrosPage> with AutomaticKeepAliveClientMixin<CarrosPage> {
   List<Carro> carros;
 
-  StreamSubscription<String> subscription;
+  StreamSubscription<Event> subscription;
 
   @override
   // TODO: implement wantKeepAlive
@@ -39,9 +39,12 @@ class _CarrosPageState extends State<CarrosPage> with AutomaticKeepAliveClientMi
 
      // Escutando uma stream
     final bus = EventBus.get(context);
-    subscription = bus.stream.listen((String s) {
-      print("Event $s");
-      _bloc.fetch(tipo);
+    subscription = bus.stream.listen((Event e) {
+      print("Event $e");
+      CarroEvent carroEvent = e;
+      if (carroEvent == widget.tipo) {
+        _bloc.fetch(tipo);
+      }
     });
   }
 
