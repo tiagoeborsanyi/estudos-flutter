@@ -3,6 +3,7 @@ import 'package:carros/pages/carro/carro.dart';
 import 'package:carros/pages/carro/carro_page.dart';
 import 'package:carros/utils/nav.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 // ignore: must_be_immutable
 class CarrosListView extends StatelessWidget {
@@ -86,10 +87,16 @@ class CarrosListView extends StatelessWidget {
   }
 
   void _onLongClickCarro(BuildContext context, Carro c) {
-    showDialog(context: context, builder: (context) {
-      return SimpleDialog(
-        title: Text(c.nome),
+    showModalBottomSheet(context: context, builder: (context) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(c.nome, style: TextStyle(
+              fontSize: 22, fontWeight: FontWeight.bold,
+            ),),
+          ),
           ListTile(
             title: Text("Detalhes"),
             leading: Icon(Icons.directions_car),
@@ -113,5 +120,7 @@ class CarrosListView extends StatelessWidget {
 
   void _onClickShare(BuildContext context, Carro c) {
     print("SHARE: ${c.nome}");
+
+    Share.share(c.urlFoto);
   }
 }

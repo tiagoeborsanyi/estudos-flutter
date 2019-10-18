@@ -5,11 +5,13 @@ import 'package:carros/pages/carro/carro_form_page.dart';
 import 'package:carros/pages/carro/carros_api.dart';
 import 'package:carros/pages/carro/loripsum_api.dart';
 import 'package:carros/pages/favoritos/favorito_service.dart';
+import 'package:carros/pages/video_page.dart';
 import 'package:carros/utils/alert.dart';
 import 'package:carros/utils/event_bus.dart';
 import 'package:carros/utils/nav.dart';
 import 'package:carros/widgets/text.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
 class CarroPage extends StatefulWidget {
@@ -53,7 +55,9 @@ class _CarroPageState extends State<CarroPage> {
           ),
           IconButton(
             icon: Icon(Icons.videocam),
-            onPressed: _onClickVideo,
+            onPressed: () {
+              _onClickVideo(context);
+            },
           ),
           PopupMenuButton<String>(
             onSelected: (String value) => _onClickPopupMenu(value),
@@ -166,7 +170,14 @@ class _CarroPageState extends State<CarroPage> {
 
   void _onClickMapa() {}
 
-  void _onClickVideo() {}
+  void _onClickVideo(context) {
+    if (widget.carro.urlVideo != null && widget.carro.urlVideo.isNotEmpty) {
+//      launch(widget.carro.urlVideo);
+    push(context, VideoPage(widget.carro));
+    } else {
+      alert(context, "Este carro nao possui video");
+    }
+  }
 
   _onClickPopupMenu(String value) {
     switch (value) {
